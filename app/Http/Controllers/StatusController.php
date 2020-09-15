@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class StatusController extends Controller
 {
@@ -35,12 +36,16 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        $status = new Status();
-        // can be used for seeing the insides of the incoming request
-        // var_dump($request->all()); die();
-        $status->fill($request->all());
-        $status->save();
-        return redirect()->route('status.index');
+        if ($request['name'] === null) {
+            return Redirect::back()->withErrors(['Enter a status!']);
+        } else {
+            $status = new Status();
+            // can be used for seeing the insides of the incoming request
+            // var_dump($request->all()); die();
+            $status->fill($request->all());
+            $status->save();
+            return redirect()->route('status.index');
+        }
     }
 
     /**

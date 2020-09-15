@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TaskController extends Controller
 {
@@ -42,12 +44,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = new Task();
+        if ($request['task_name'] === null) {
+            return Redirect::back()->withErrors(['Enter a task!']);
+        } else {
+            $task = new Task();
 
-        $task->fill($request->all());
-        $task->save();
-        return redirect()->route('task.index');
+            $task->fill($request->all());
+            $task->save();
+            return redirect()->route('task.index');
+        }
     }
+
 
     /**
      * Display the specified resource.

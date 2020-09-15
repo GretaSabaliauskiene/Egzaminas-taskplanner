@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+    @if($errors->any())
+    <h4 style="color: red">{{$errors->first()}}</h4>
+    @endif
    <div class="row justify-content-center">
        <div class="col-md-8">
            <div class="card">
